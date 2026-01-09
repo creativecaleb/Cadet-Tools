@@ -135,7 +135,24 @@
 
         footer p { font-size: 0.8rem; margin-bottom: 8px; }
 
+        .sections-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            align-items: flex-start;
+        }
+
+        .section {
+            flex: 1 1 300px;
+        }
+
         /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .sections-container {
+                flex-direction: column;
+                align-items: stretch;
+            }
+        }
         @media (max-width: 600px) {
             header h1 { font-size: 1.5rem; }
             .link-grid { grid-template-columns: 1fr; }
@@ -150,93 +167,99 @@
     </header>
 
     <div class="portal-container">
+      <div class="sections-container">
+        <div class="section">
+            <!-- Training Resources -->
+            <h2 class="section-title">Training & Reference</h2>
+            <div class="link-grid">
+                <a href="drill.html" class="portal-card">
+                    <div class="icon-box"><i class="fas fa-shoe-prints"></i></div>
+                    <div class="card-text">
+                        <h3>Drill & Ceremonial</h3>
+                        <p>Manuals and command lists</p>
+                    </div>
+                </a>
 
-        <!-- Training Resources -->
-        <h2 class="section-title">Training & Reference</h2>
-        <div class="link-grid">
-            <a href="drill.html" class="portal-card">
-                <div class="icon-box"><i class="fas fa-shoe-prints"></i></div>
-                <div class="card-text">
-                    <h3>Drill & Ceremonial</h3>
-                    <p>Manuals and command lists</p>
-                </div>
-            </a>
+                <a href="navigation.html" class="portal-card">
+                    <div class="icon-box"><i class="fas fa-map-marked-alt"></i></div>
+                    <div class="card-text">
+                        <h3>Navigation</h3>
+                        <p>Map reading and bearings</p>
+                    </div>
+                </a>
 
-            <a href="navigation.html" class="portal-card">
-                <div class="icon-box"><i class="fas fa-map-marked-alt"></i></div>
-                <div class="card-text">
-                    <h3>Navigation</h3>
-                    <p>Map reading and bearings</p>
-                </div>
-            </a>
+                <a href="radio.html" class="portal-card">
+                    <div class="icon-box"><i class="fas fa-walkie-talkie"></i></div>
+                    <div class="card-text">
+                        <h3>RATEL</h3>
+                        <p>Radio procedure and phonetic alphabet</p>
+                    </div>
+                </a>
 
-            <a href="radio.html" class="portal-card">
-                <div class="icon-box"><i class="fas fa-walkie-talkie"></i></div>
-                <div class="card-text">
-                    <h3>RATEL</h3>
-                    <p>Radio procedure and phonetic alphabet</p>
-                </div>
-            </a>
-
-            <a href="firstaid.html" class="portal-card">
-                <div class="icon-box"><i class="fas fa-briefcase-medical"></i></div>
-                <div class="card-text">
-                    <h3>First Aid</h3>
-                    <p>Emergency medical protocols</p>
-                </div>
-            </a>
+                <a href="firstaid.html" class="portal-card">
+                    <div class="icon-box"><i class="fas fa-briefcase-medical"></i></div>
+                    <div class="card-text">
+                        <h3>First Aid</h3>
+                        <p>Emergency medical protocols</p>
+                    </div>
+                </a>
+            </div>
         </div>
 
-        <!-- Administrative Systems -->
-        <h2 class="section-title">Systems & Logistics</h2>
-        <div class="link-grid">
-            <a href="https://cadetnet.org.nz" target="_blank" class="portal-card">
-                <div class="icon-box"><i class="fas fa-user-check"></i></div>
-                <div class="card-text">
-                    <h3>CadetNet</h3>
-                    <p>Personal profile and attendance</p>
-                </div>
-                <i class="fas fa-external-link-alt external-icon"></i>
-            </a>
+        <div class="section">
+            <!-- Administrative Systems -->
+            <h2 class="section-title">Systems & Logistics</h2>
+            <div class="link-grid">
+                <a href="https://cadetnet.org.nz" target="_blank" class="portal-card">
+                    <div class="icon-box"><i class="fas fa-user-check"></i></div>
+                    <div class="card-text">
+                        <h3>CadetNet</h3>
+                        <p>Personal profile and attendance</p>
+                    </div>
+                    <i class="fas fa-external-link-alt external-icon"></i>
+                </a>
 
-            <a href="uniform.html" class="portal-card">
-                <div class="icon-box"><i class="fas fa-tshirt"></i></div>
-                <div class="card-text">
-                    <h3>Dress Standards</h3>
-                    <p>Uniform care and instructions</p>
-                </div>
-            </a>
+                <a href="uniform.html" class="portal-card">
+                    <div class="icon-box"><i class="fas fa-tshirt"></i></div>
+                    <div class="card-text">
+                        <h3>Dress Standards</h3>
+                        <p>Uniform care and instructions</p>
+                    </div>
+                </a>
 
-            <a href="moodle.html" class="portal-card">
-                <div class="icon-box"><i class="fas fa-graduation-cap"></i></div>
-                <div class="card-text">
-                    <h3>Online Learning</h3>
-                    <p>NZCF Moodle courses</p>
-                </div>
-            </a>
+                <a href="moodle.html" class="portal-card">
+                    <div class="icon-box"><i class="fas fa-graduation-cap"></i></div>
+                    <div class="card-text">
+                        <h3>Online Learning</h3>
+                        <p>NZCF Moodle courses</p>
+                    </div>
+                </a>
 
-            <a href="forms.html" class="portal-card">
-                <div class="icon-box"><i class="fas fa-file-signature"></i></div>
-                <div class="card-text">
-                    <h3>Leave & Forms</h3>
-                    <p>Unit application templates</p>
-                </div>
-            </a>
+                <a href="forms.html" class="portal-card">
+                    <div class="icon-box"><i class="fas fa-file-signature"></i></div>
+                    <div class="card-text">
+                        <h3>Leave & Forms</h3>
+                        <p>Unit application templates</p>
+                    </div>
+                </a>
+            </div>
         </div>
 
-        <!-- Official Links -->
-        <h2 class="section-title">Official Resources</h2>
-        <div class="link-grid">
-            <a href="https://www.cadetforces.org.nz" target="_blank" class="portal-card">
-                <div class="icon-box"><i class="fas fa-globe"></i></div>
-                <div class="card-text">
-                    <h3>NZCF National Site</h3>
-                    <p>Official organization news</p>
-                </div>
-                <i class="fas fa-external-link-alt external-icon"></i>
-            </a>
+        <div class="section">
+            <!-- Official Links -->
+            <h2 class="section-title">Official Resources</h2>
+            <div class="link-grid">
+                <a href="https://www.cadetforces.org.nz" target="_blank" class="portal-card">
+                    <div class="icon-box"><i class="fas fa-globe"></i></div>
+                    <div class="card-text">
+                        <h3>NZCF National Site</h3>
+                        <p>Official organization news</p>
+                    </div>
+                    <i class="fas fa-external-link-alt external-icon"></i>
+                </a>
+            </div>
         </div>
-
+      </div>
     </div>
 
     <footer>
