@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NZCF Personnel Portal</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --nzcf-blue: #002147; /* Navy Blue */
+            --nzcf-red: #cc0000;  /* Scarlet */
+            --light-bg: #f8f9fa;
+            --card-bg: #ffffff;
+            --text-main: #2d3436;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Arial, sans-serif;
+        }
+
+        body {
+            background-color: var(--light-bg);
+            color: var(--text-main);
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* Top Navigation Header */
+        header {
+            background-color: var(--nzcf-blue);
+            color: white;
+            padding: 2.5rem 1rem;
+            text-align: center;
+            border-bottom: 6px solid var(--nzcf-red);
+        }
+
+        header h1 {
+            font-size: 2rem;
+            letter-spacing: 1px;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+        }
+
+        header p {
+            font-weight: 300;
+            opacity: 0.8;
+            font-size: 1rem;
+        }
+
+        /* Main Container */
+        .portal-container {
+            max-width: 1100px;
+            margin: 3rem auto;
+            padding: 0 20px;
+            flex-grow: 1;
+        }
+
+        .section-title {
+            margin-bottom: 1.5rem;
+            border-left: 4px solid var(--nzcf-red);
+            padding-left: 15px;
+            font-size: 1.2rem;
+            color: var(--nzcf-blue);
+            text-transform: uppercase;
+        }
+
+        /* Link Grid */
+        .link-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .portal-card {
+            background: var(--card-bg);
+            text-decoration: none;
+            color: inherit;
+            padding: 1.5rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            display: flex;
+            align-items: center;
+            transition: all 0.3s ease;
+            border: 1px solid #eee;
+        }
+
+        .portal-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--nzcf-blue);
+            box-shadow: 0 8px 15px rgba(0,0,0,0.1);
+        }
+
+        .icon-box {
+            background-color: #f0f4f8;
+            width: 50px;
+            height: 50px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1.2rem;
+            color: var(--nzcf-blue);
+            font-size: 1.4rem;
+        }
+
+        .card-text h3 {
+            font-size: 1.1rem;
+            margin-bottom: 4px;
+        }
+
+        .card-text p {
+            font-size: 0.85rem;
+            color: #636e72;
+        }
+
+        /* External Link Indicators */
+        .external-icon {
+            margin-left: auto;
+            font-size: 0.7rem;
+            color: #b2bec3;
+        }
+
+        footer {
+            background: #2d3436;
+            color: #dfe6e9;
+            text-align: center;
+            padding: 2rem 1rem;
+            margin-top: auto;
+        }
+
+        footer p { font-size: 0.8rem; margin-bottom: 8px; }
+
+        /* Responsive adjustments */
+        @media (max-width: 600px) {
+            header h1 { font-size: 1.5rem; }
+            .link-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>NZCF Personnel Portal</h1>
+        <p>New Zealand Cadet Forces Training & Resource Hub</p>
+    </header>
+
+    <div class="portal-container">
+
+        <!-- Training Resources -->
+        <h2 class="section-title">Training & Reference</h2>
+        <div class="link-grid">
+            <a href="drill.html" class="portal-card">
+                <div class="icon-box"><i class="fas fa-shoe-prints"></i></div>
+                <div class="card-text">
+                    <h3>Drill & Ceremonial</h3>
+                    <p>Manuals and command lists</p>
+                </div>
+            </a>
+
+            <a href="navigation.html" class="portal-card">
+                <div class="icon-box"><i class="fas fa-map-marked-alt"></i></div>
+                <div class="card-text">
+                    <h3>Navigation</h3>
+                    <p>Map reading and bearings</p>
+                </div>
+            </a>
+
+            <a href="radio.html" class="portal-card">
+                <div class="icon-box"><i class="fas fa-walkie-talkie"></i></div>
+                <div class="card-text">
+                    <h3>RATEL</h3>
+                    <p>Radio procedure and phonetic alphabet</p>
+                </div>
+            </a>
+
+            <a href="firstaid.html" class="portal-card">
+                <div class="icon-box"><i class="fas fa-briefcase-medical"></i></div>
+                <div class="card-text">
+                    <h3>First Aid</h3>
+                    <p>Emergency medical protocols</p>
+                </div>
+            </a>
+        </div>
+
+        <!-- Administrative Systems -->
+        <h2 class="section-title">Systems & Logistics</h2>
+        <div class="link-grid">
+            <a href="https://cadetnet.org.nz" target="_blank" class="portal-card">
+                <div class="icon-box"><i class="fas fa-user-check"></i></div>
+                <div class="card-text">
+                    <h3>CadetNet</h3>
+                    <p>Personal profile and attendance</p>
+                </div>
+                <i class="fas fa-external-link-alt external-icon"></i>
+            </a>
+
+            <a href="uniform.html" class="portal-card">
+                <div class="icon-box"><i class="fas fa-tshirt"></i></div>
+                <div class="card-text">
+                    <h3>Dress Standards</h3>
+                    <p>Uniform care and instructions</p>
+                </div>
+            </a>
+
+            <a href="moodle.html" class="portal-card">
+                <div class="icon-box"><i class="fas fa-graduation-cap"></i></div>
+                <div class="card-text">
+                    <h3>Online Learning</h3>
+                    <p>NZCF Moodle courses</p>
+                </div>
+            </a>
+
+            <a href="forms.html" class="portal-card">
+                <div class="icon-box"><i class="fas fa-file-signature"></i></div>
+                <div class="card-text">
+                    <h3>Leave & Forms</h3>
+                    <p>Unit application templates</p>
+                </div>
+            </a>
+        </div>
+
+        <!-- Official Links -->
+        <h2 class="section-title">Official Resources</h2>
+        <div class="link-grid">
+            <a href="https://www.cadetforces.org.nz" target="_blank" class="portal-card">
+                <div class="icon-box"><i class="fas fa-globe"></i></div>
+                <div class="card-text">
+                    <h3>NZCF National Site</h3>
+                    <p>Official organization news</p>
+                </div>
+                <i class="fas fa-external-link-alt external-icon"></i>
+            </a>
+
+            <a href="orders.html" class="portal-card">
+                <div class="icon-box"><i class="fas fa-gavel"></i></div>
+                <div class="card-text">
+                    <h3>Standing Orders</h3>
+                    <p>Unit rules and regulations</p>
+                </div>
+            </a>
+        </div>
+
+    </div>
+
+    <footer>
+        <p>Acknowledge: This is a private resource hub for NZCF Personnel.</p>
+        <p><strong>Courage • Commitment • Comradeship • Integrity</strong></p>
+    </footer>
+
+</body>
+</html>
