@@ -3,15 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NZCF Personnel Portal</title>
+    <title>NZCF Rank Requirements - Personnel Portal</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&amp;display=swap" rel="stylesheet">
     <style>
         :root {
-            --nzcf-blue: #002147; 
-            --nzcf-red: #cc0000;  
+            --nzcf-blue: #002147; /* Navy Blue */
+            --nzcf-red: #cc0000;  /* Scarlet */
             --light-bg: #f8f9fa;
             --card-bg: #ffffff;
             --text-main: #2d3436;
+            --table-border: #dee2e6;
+            --accent-start:#06b6d4;
+            --accent-end:#0ea5a3;
+            --accent-600:#059287;
         }
 
         * {
@@ -44,6 +49,20 @@
             text-transform: uppercase;
         }
 
+        header a {
+            color: white;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 1rem;
+            opacity: 0.8;
+            font-weight: 300;
+        }
+
+        header a:hover {
+            opacity: 1;
+            text-decoration: underline;
+        }
+        
         header p {
             font-weight: 300;
             opacity: 0.8;
@@ -51,74 +70,131 @@
         }
 
         .portal-container {
-            max-width: 1100px;
+            max-width: 1200px;
             margin: 3rem auto;
             padding: 0 20px;
             flex-grow: 1;
         }
+        
+        .content-card {
+            background: var(--card-bg);
+            padding: 2.5rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            border: 1px solid #eee;
+        }
 
-        .section-title {
-            margin: 2.5rem 0 1.5rem 0;
+        .page-title {
+            margin-bottom: 2rem;
             border-left: 4px solid var(--nzcf-red);
             padding-left: 15px;
-            font-size: 1.2rem;
+            font-size: 1.5rem;
             color: var(--nzcf-blue);
             text-transform: uppercase;
         }
 
-        .link-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-            gap: 1.5rem;
-            margin-bottom: 1rem;
+        textarea{width:100%;height:220px;font-family:Consolas,monospace;border:1px solid #e6eef2;padding:10px;border-radius:10px;background:#fdfefe}
+
+        .controls{display:flex;flex-wrap:wrap;gap:10px;margin:12px 0 6px;align-items:center}
+        .btn{background:linear-gradient(90deg,var(--accent-start),var(--accent-end));color:#fff;border:none;padding:10px 14px;border-radius:10px;cursor:pointer;box-shadow:0 6px 16px rgba(6,182,212,0.12);transition:transform .12s ease,box-shadow .12s ease}
+        .btn:hover{transform:translateY(-2px);box-shadow:0 10px 22px rgba(6,182,212,0.14)}
+        .btn:active{transform:translateY(0)}
+        .btn.secondary{background:#f3f7f8;color:#0f172a}
+        .btn.ghost{background:transparent;border:1px solid rgba(14,165,163,0.14);color:var(--accent-end);box-shadow:none}
+
+        input[type=file]{padding:6px}
+        .small{font-size:0.95em;color:var(--muted)}
+
+        .table-wrap{overflow:visible;border-radius:10px;margin-top:12px;background:transparent;padding:6px}
+        table{width:100%;border-collapse:separate;border-spacing:0;background:var(--card);border-radius:8px;overflow:visible}
+        thead th{background:linear-gradient(180deg,#fbfeff,#f1f6f8);padding:14px 12px;text-align:left;font-weight:700;color:var(--nzcf-blue);border-bottom:1px solid #e6eef2;position:sticky;top:0;z-index:40;box-shadow:0 8px 18px rgba(12,20,30,0.06)}
+        tbody td{padding:12px;border-bottom:1px solid #f1f5f7;vertical-align:top}
+        tbody tr{background:transparent}
+        tbody tr[data-corps*="|"]{background-color:rgba(6,182,212,0.06)}
+        tbody tr[data-corps*="Navy"]{background-color:rgba(29,78,216,0.06)}
+        tbody tr[data-corps*="Army"]{background-color:rgba(16,185,129,0.06)}
+        tbody tr[data-corps*="Air"]{background-color:rgba(99,102,241,0.06)}
+        tbody tr[data-corps*="Sea Cadet"]{background-color:rgba(29,78,216,0.06)}
+        tbody tr:hover{background:#fbfffe;transition:background .12s ease}
+
+        .corps-badge{display:inline-block;padding:6px 10px;border-radius:999px;font-size:12px;font-weight:700;background:rgba(0,0,0,0.03);color:#0f172a}
+        tr[data-corps="Navy"] .corps-badge{background:rgba(29,78,216,0.08);color:#1e3a8a}
+        tr[data-corps="Army"] .corps-badge{background:rgba(16,185,129,0.08);color:#065f46}
+        tr[data-corps="Air Force"] .corps-badge{background:rgba(99,102,241,0.06);color:#4c1d95}
+        tr[data-corps*="Air Cadet"] .corps-badge{background:rgba(99,102,241,0.06);color:#4c1d95}
+        tr[data-corps*="Army Cadet"] .corps-badge{background:rgba(16,185,129,0.08);color:#065f46}
+        tr[data-corps*="Sea Cadet"] .corps-badge{background:rgba(29,78,216,0.08);color:#0f5250}
+
+        .prereq{white-space:pre-wrap;font-size:13px;color:#0f172a}
+        .eqv{display:inline-block;background:#eef9f8;color:var(--accent-600);padding:5px 10px;border-radius:999px;font-weight:700;font-size:12px}
+
+        .search{margin-left:auto;display:flex;gap:8px;align-items:center}
+        .search input{padding:10px 12px;border-radius:10px;border:1px solid #e6eef2;min-width:220px;transition:box-shadow .12s ease}
+        .search input:focus{outline:none;box-shadow:0 6px 18px rgba(6,182,212,0.08);border-color:rgba(6,182,212,0.18)}
+
+        .table-wrap{animation:fadeIn .36s ease both}
+        @keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+
+        @media (max-width:900px){.controls{flex-direction:column;align-items:stretch}.search{margin-left:0}.search input{min-width:120px}}
+        
+        .modal{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(10,15,20,0.38);z-index:200}
+        .modal.open{display:flex}
+        .modal-box{
+          background:var(--card-bg);
+          max-width:800px;
+          width:92%;
+          max-height:90vh;
+          overflow:auto;
+          border-radius:12px;
+          padding:18px;
+          box-shadow:0 20px 40px rgba(6,20,30,0.18);
+          display: flex;
+          flex-direction: column;
+        }
+        .modal-header{display:flex;align-items:center;gap:12px}
+        .modal-title{font-weight:700;font-size:1.05rem}
+        .modal-close{margin-left:auto;background:transparent;border:0;color:var(--muted);cursor:pointer;font-size:18px}
+        .modal-body{
+          margin-top:12px;
+          color:#0f172a;
+          font-size:0.95rem;
+          display: flex;
+          flex: 1 1 auto;
+          overflow: visible;
         }
 
-        .portal-card {
-            background: var(--card-bg);
-            text-decoration: none;
-            color: inherit;
-            padding: 1.5rem;
-            border-radius: 10px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-            display: flex;
-            align-items: center;
-            transition: all 0.3s ease;
-            border: 1px solid #eee;
+        @media (max-width:480px){.modal-box{padding:14px;border-radius:10px}}
+        
+        .modal-layout{
+          display: flex;
+          gap: 18px;
+          align-items: flex-start;
+        }
+        .modal-details{
+          flex: 1 1 auto;
+          min-width: 0;
+        }
+        .modal-image{
+          flex: 0 0 auto;
+          max-height: 100%;
+        }
+        .modal-image img{
+          display: block;
+          width: clamp(220px, 20vw, 320px);
+          height: auto;
+          max-height: 100%;
+          object-fit: contain;
+          border-radius: 6px;
+          box-shadow: 0 6px 18px rgba(0,0,0,0.12);
         }
 
-        .portal-card:hover {
-            transform: translateY(-5px);
-            border-color: var(--nzcf-blue);
-            box-shadow: 0 8px 15px rgba(0,0,0,0.1);
-        }
-
-        .icon-box {
-            background-color: #f0f4f8;
-            width: 50px;
-            height: 50px;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-right: 1.2rem;
-            color: var(--nzcf-blue);
-            font-size: 1.4rem;
-        }
-
-        .card-text h3 {
-            font-size: 1.1rem;
-            margin-bottom: 4px;
-        }
-
-        .card-text p {
-            font-size: 0.85rem;
-            color: #636e72;
-        }
-
-        .external-icon {
-            margin-left: auto;
-            font-size: 0.7rem;
-            color: #b2bec3;
+        @media (max-width: 720px){
+          .modal-layout{
+            flex-direction: column;
+          }
+          .modal-image{
+            max-width: 100%;
+          }
         }
 
         footer {
@@ -131,119 +207,60 @@
 
         footer p { font-size: 0.8rem; margin-bottom: 8px; }
 
-        @media (max-width: 600px) {
-            header h1 { font-size: 1.5rem; }
-            .link-grid { grid-template-columns: 1fr; }
+        @media (max-width: 768px) {
+            .content-card { padding: 1.5rem; }
+            .page-title { font-size: 1.2rem; }
         }
     </style>
 </head>
 <body>
 
     <header>
-        <h1>NZCF Personnel Portal</h1>
-        <p>New Zealand Cadet Forces Training & Resource Hub</p>
+        <h1>Rank Requirements</h1>
+        <p>A summary of promotion requirements for NZCF Cadets</p>
+        <a href="index.html"><i class="fas fa-arrow-left"></i> Back to Portal</a>
     </header>
 
     <div class="portal-container">
+        <div class="content-card">
+            <h2 class="page-title">Sort and Format Rank JSON</h2>
+            <p class="small">This page fetches the canonical rank JSON automatically. Use <strong>Fetch Remote</strong> to re-run.</p>
+            <div class="controls">
+              <button id="fetch" class="btn">Fetch Remote</button>
+              <button id="download" class="btn ghost">Download JSON</button>
+              <div class="search">
+                <label class="small">Filter:</label>
+                <input id="search" placeholder="Search ranks...">
+              </div>
+              <div>
+                <label class="small" for="corpsFilter">Corps:</label>
+                <select id="corpsFilter" class="small"></select>
+              </div>
+              <div style="display:flex;align-items:center;gap:8px">
+                <label class="small" style="display:flex;align-items:center;gap:8px"><input id="hideActing" type="checkbox" checked=""> Hide acting ranks</label>
+              </div>
+            </div>
 
-        <!-- Training Resources -->
-        <h2 class="section-title">Training & Reference</h2>
-        <div class="link-grid">
-            <a href="drill.html" class="portal-card">
-                <div class="icon-box"><i class="fas fa-shoe-prints"></i></div>
-                <div class="card-text">
-                    <h3>Drill & Ceremonial</h3>
-                    <p>Manuals and command lists</p>
-                </div>
-            </a>
-
-            <a href="navigation.html" class="portal-card">
-                <div class="icon-box"><i class="fas fa-map-marked-alt"></i></div>
-                <div class="card-text">
-                    <h3>Navigation</h3>
-                    <p>Map reading and bearings</p>
-                </div>
-            </a>
-
-            <a href="radio.html" class="portal-card">
-                <div class="icon-box"><i class="fas fa-walkie-talkie"></i></div>
-                <div class="card-text">
-                    <h3>RATEL</h3>
-                    <p>Radio procedure and codes</p>
-                </div>
-            </a>
-        </div>
-
-        <!-- NEW SECTION: Training Aids -->
-        <h2 class="section-title">Training Aids</h2>
-        <div class="link-grid">
-            <a href="SortRankRequirements.html" class="portal-card">
-                <div class="icon-box"><i class="fas fa-medal"></i></div>
-                <div class="card-text">
-                    <h3>Rank Requirements</h3>
-                    <p>Promotion criteria & sort tool</p>
-                </div>
-            </a>
+            <div id="output"></div>
             
-            <a href="lesson-plans.html" class="portal-card">
-                <div class="icon-box"><i class="fas fa-chalkboard-user"></i></div>
-                <div class="card-text">
-                    <h3>Lesson Resources</h3>
-                    <p>Instructional techniques & aids</p>
+            <div id="rowModal" class="modal" aria-hidden="true">
+              <div class="modal-box" role="dialog" aria-modal="true">
+                <div class="modal-header">
+                  <div class="modal-title">Details</div>
+                  <button class="modal-close" aria-label="Close">✕</button>
                 </div>
-            </a>
+                <div class="modal-body modal-layout">
+                  <div class="modal-details">
+                    <div class="modal-corps"></div>
+                    <div class="modal-content" style="margin-top:8px"></div>
+                  </div>
+                  <div class="modal-image" style="display:none">
+                    <img id="modalRankImage" alt="Rank insignia">
+                  </div>
+                </div>
+              </div>
+            </div>
         </div>
-
-        <!-- Administrative Systems -->
-        <h2 class="section-title">Systems & Logistics</h2>
-        <div class="link-grid">
-            <a href="https://cadetnet.org.nz" target="_blank" class="portal-card">
-                <div class="icon-box"><i class="fas fa-user-check"></i></div>
-                <div class="card-text">
-                    <h3>CadetNet</h3>
-                    <p>Personal profile and attendance</p>
-                </div>
-                <i class="fas fa-external-link-alt external-icon"></i>
-            </a>
-
-            <a href="uniform.html" class="portal-card">
-                <div class="icon-box"><i class="fas fa-tshirt"></i></div>
-                <div class="card-text">
-                    <h3>Dress Standards</h3>
-                    <p>Uniform care and instructions</p>
-                </div>
-            </a>
-
-            <a href="forms.html" class="portal-card">
-                <div class="icon-box"><i class="fas fa-file-signature"></i></div>
-                <div class="card-text">
-                    <h3>Leave & Forms</h3>
-                    <p>Unit application templates</p>
-                </div>
-            </a>
-        </div>
-
-        <!-- Official Links -->
-        <h2 class="section-title">Official Resources</h2>
-        <div class="link-grid">
-            <a href="https://www.cadetforces.org.nz" target="_blank" class="portal-card">
-                <div class="icon-box"><i class="fas fa-globe"></i></div>
-                <div class="card-text">
-                    <h3>NZCF National Site</h3>
-                    <p>Official organization news</p>
-                </div>
-                <i class="fas fa-external-link-alt external-icon"></i>
-            </a>
-
-            <a href="orders.html" class="portal-card">
-                <div class="icon-box"><i class="fas fa-gavel"></i></div>
-                <div class="card-text">
-                    <h3>Standing Orders</h3>
-                    <p>Unit rules and regulations</p>
-                </div>
-            </a>
-        </div>
-
     </div>
 
     <footer>
@@ -251,5 +268,524 @@
         <p><strong>Courage • Commitment • Comradeship • Integrity</strong></p>
     </footer>
 
+    <script>
+    const fetchBtn = document.getElementById('fetch');
+    const output = document.getElementById('output');
+    const download = document.getElementById('download');
+
+    const RANK_IMAGE_MAP = {
+      "Air Cadet": {
+        "CDT": "https://upload.wikimedia.org/wikipedia/commons/1/13/NZCF_ATC_CDT-1_CDT.png",
+        "LAC": "https://upload.wikimedia.org/wikipedia/commons/7/76/NZCF_ATC_CDT-2_CDTLAC.png",
+        "CDTCPL": "https://upload.wikimedia.org/wikipedia/commons/2/23/NZCF_ATC_CDT-4_CDTCPL.png",
+        "CDTSGT": "https://upload.wikimedia.org/wikipedia/commons/7/7f/NZCF_ATC_CDT-5_CDTSGT.png",
+        "CDTF/S": "https://upload.wikimedia.org/wikipedia/commons/3/3f/NZCF_ATC_CDT-6_CDTFSGT.png",
+        "CDTW/O": "https://upload.wikimedia.org/wikipedia/commons/f/f5/NZCF_ATC_CDT-8_CDTWO.png",
+        "OFFCDT": "https://upload.wikimedia.org/wikipedia/commons/9/98/NZCF_ATC_OF-1_OFFCDT.png",
+        "PLTOFF": "https://upload.wikimedia.org/wikipedia/commons/4/46/NZCF_ATC_OF-2_PLTOFF.png",
+        "FGOFF": "https://upload.wikimedia.org/wikipedia/commons/4/46/NZCF_ATC_OF-3_FGOFF.png",
+        "FLTLT": "https://upload.wikimedia.org/wikipedia/commons/7/7a/NZCF_ATC_OF-4_FLTLT.png",
+        "SQNLDR": "https://upload.wikimedia.org/wikipedia/commons/2/2f/NZCF_ATC_OF-5_SQNLDR.png",
+        "WGCDR": "https://upload.wikimedia.org/wikipedia/commons/7/7d/NZCF_ATC_OF-6_WGCDR.png"
+      },
+      "Army Cadet": {
+        "CDT": "https://upload.wikimedia.org/wikipedia/commons/9/97/NZCF_NZCC_CDT-1_CDT.png",
+        "CDTLCPL": "https://upload.wikimedia.org/wikipedia/commons/3/36/NZCF_NZCC_CDT-3_CDTLCPL.png",
+        "CDTCPL": "https://upload.wikimedia.org/wikipedia/commons/d/d7/NZCF_NZCC_CDT-4_CDTCPL.png",
+        "CDTSGT": "https://upload.wikimedia.org/wikipedia/commons/3/3b/NZCF_NZCC_CDT-5_CDTSGT.png",
+        "CDTSSGT": "https://upload.wikimedia.org/wikipedia/commons/0/09/NZCF_NZCC_CDT-6_CDTSSGT.png",
+        "CDTWO2": "https://upload.wikimedia.org/wikipedia/commons/7/7a/NZCF_NZCC_CDT-7_CDTWO2.png",
+        "CDTWO1": "https://upload.wikimedia.org/wikipedia/commons/5/52/NZCF_NZCC_OF-8_CDTWO1.png",
+        "OFFCDT": "https://upload.wikimedia.org/wikipedia/commons/c/cd/NZCF_NZCC_OF-1_OFFCDT.png",
+        "2LT": "https://upload.wikimedia.org/wikipedia/commons/a/ad/NZCF_NZCC_OF-2_2LT.png",
+        "LT": "https://upload.wikimedia.org/wikipedia/commons/0/07/NZCF_NZCC_OF-3_LT.png",
+        "CAPT": "https://upload.wikimedia.org/wikipedia/commons/4/45/NZCF_NZCC_OF-4_CAPT.png",
+        "MAJ": "https://upload.wikimedia.org/wikipedia/commons/7/7c/NZCF_NZCC_OF-5_MAJ.png",
+        "LTCOL": "https://upload.wikimedia.org/wikipedia/commons/8/8d/NZCF_NZCC_OF-6_LTCOL.png"
+      },
+      "Sea Cadet": {
+        "OCDT": "https://upload.wikimedia.org/wikipedia/commons/4/49/NZCF_SCC_CDT-1_OCDT.png",
+        "ACDT": "https://upload.wikimedia.org/wikipedia/commons/f/f7/NZCF_SCC_CDT-2_ACDT.png",
+        "LCDT": "https://upload.wikimedia.org/wikipedia/commons/8/8d/NZCF_SCC_CDT-4_LCDT.png",
+        "POCDT": "https://upload.wikimedia.org/wikipedia/commons/9/95/NZCF_SCC_CDT-5_POCDT.png",
+        "CPOCDT": "https://upload.wikimedia.org/wikipedia/commons/0/0b/NZCF_SCC_CDT-6_CPOCDT.png",
+        "WOCDT": "https://upload.wikimedia.org/wikipedia/commons/3/36/NZCF_SCC_CDT-8_WOCDT.png",
+        "OFFCDT": "https://upload.wikimedia.org/wikipedia/commons/b/b0/NZCF_SCC_OF-1_OFFCDT.png",
+        "ENS": "https://upload.wikimedia.org/wikipedia/commons/e/e7/NZCF_SCC_OF-2_ENS.png",
+        "SLT": "https://upload.wikimedia.org/wikipedia/commons/1/1a/NZCF_SCC_OF-3_SLT.png",
+        "LT": "https://upload.wikimedia.org/wikipedia/commons/d/d5/NZCF_SCC_OF-4_LT.png",
+        "LTCDR": "https://upload.wikimedia.org/wikipedia/commons/a/ae/NZCF_SCC_OF-5_LTCDR.png",
+        "CDR": "https://upload.wikimedia.org/wikipedia/commons/4/4d/NZCF_SCC_OF-6_CDR.png"
+      },
+      "Navy": {
+        "O": "https://upload.wikimedia.org/wikipedia/commons/7/76/RNZN_OR-1.svg",
+        "A": "https://upload.wikimedia.org/wikipedia/commons/e/eb/RNZN_OR-2.svg",
+        "L": "https://upload.wikimedia.org/wikipedia/commons/b/be/RNZN_OR-4.svg",
+        "PO": "https://upload.wikimedia.org/wikipedia/commons/5/54/RNZN_OR-6.svg",
+        "CPO": "https://upload.wikimedia.org/wikipedia/commons/4/41/RNZN_OR-7.svg",
+        "WO": "https://upload.wikimedia.org/wikipedia/commons/c/c5/RNZN_OR-9.svg",
+        "WO1": "https://upload.wikimedia.org/wikipedia/commons/c/c5/RNZN_OR-9.svg",
+        "MID": "https://upload.wikimedia.org/wikipedia/commons/f/f6/British_Royal_Navy_OF-1a.svg",
+        "MIDSHIPMAN": "https://upload.wikimedia.org/wikipedia/commons/f/f6/British_Royal_Navy_OF-1a.svg",
+        "ENS": "https://upload.wikimedia.org/wikipedia/commons/1/18/RNZN_OF-1a.svg",
+        "SLT": "https://upload.wikimedia.org/wikipedia/commons/f/f1/RNZN_OF-1b.svg",
+        "SUB": "https://upload.wikimedia.org/wikipedia/commons/f/f1/RNZN_OF-1b.svg",
+        "LT": "https://upload.wikimedia.org/wikipedia/commons/b/b5/RNZN_OF-2.svg",
+        "LTCDR": "https://upload.wikimedia.org/wikipedia/commons/9/91/RNZN_OF-3.svg",
+        "CDR": "https://upload.wikimedia.org/wikipedia/commons/7/76/RNZN_OF-4.svg",
+        "CAPT": "https://upload.wikimedia.org/wikipedia/commons/5/5c/RNZN_OF-5.svg",
+        "CDRE": "https://upload.wikimedia.org/wikipedia/commons/0/0a/RNZN_OF-6.svg",
+        "RADM": "https://upload.wikimedia.org/wikipedia/commons/0/08/RNZN_OF-7.svg",
+        "VADM": "https://upload.wikimedia.org/wikipedia/commons/f/f7/RNZN_OF-8.svg",
+        "ADM": "https://upload.wikimedia.org/wikipedia/commons/8/8d/RNZN_OF-10.svg"
+      },
+      "Army": {
+        "LCPL": "https://upload.wikimedia.org/wikipedia/commons/8/86/New_Zealand-Army-OR-3.svg",
+        "LBDR": "https://upload.wikimedia.org/wikipedia/commons/8/86/New_Zealand-Army-OR-3.svg",
+        "CPL": "https://upload.wikimedia.org/wikipedia/commons/4/48/New_Zealand-Army-OR-4.svg",
+        "BDR": "https://upload.wikimedia.org/wikipedia/commons/4/48/New_Zealand-Army-OR-4.svg",
+        "SGT": "https://upload.wikimedia.org/wikipedia/commons/1/15/New_Zealand-Army-OR-6.svg",
+        "SSGT": "https://upload.wikimedia.org/wikipedia/commons/3/33/New_Zealand-Army-OR-7.svg",
+        "WO2": "https://upload.wikimedia.org/wikipedia/commons/9/95/New_Zealand-Army-OR-8.svg",
+        "WO1": "https://upload.wikimedia.org/wikipedia/commons/5/5b/New_Zealand-Army-OR-9.svg",
+        "2LT": "https://upload.wikimedia.org/wikipedia/commons/6/6b/New_Zealand-Army-OF-1a.svg",
+        "LT": "https://upload.wikimedia.org/wikipedia/commons/9/9e/New_Zealand-Army-OF-1b.svg",
+        "CAPT": "https://upload.wikimedia.org/wikipedia/commons/5/57/New_Zealand-Army-OF-2.svg",
+        "MAJ": "https://upload.wikimedia.org/wikipedia/commons/f/f6/New_Zealand-Army-OF-3.svg",
+        "LTCOL": "https://upload.wikimedia.org/wikipedia/commons/8/84/New_Zealand-Army-OF-4.svg",
+        "COL": "https://upload.wikimedia.org/wikipedia/commons/1/1a/New_Zealand-Army-OF-5.svg",
+        "BRIG": "https://upload.wikimedia.org/wikipedia/commons/5/5d/New_Zealand-Army-OF-6.svg",
+        "MAJGEN": "https://upload.wikimedia.org/wikipedia/commons/5/55/New_Zealand-Army-OF-7.svg",
+        "LTGEN": "https://upload.wikimedia.org/wikipedia/commons/c/cc/New_Zealand-Army-OF-8.svg",
+        "GEN": "https://upload.wikimedia.org/wikipedia/commons/2/20/New_Zealand-Army-OF-10.svg"
+      },
+      "Air Force": {
+        "AC": "https://upload.wikimedia.org/wikipedia/commons/3/3a/RNZAF_OR-1.svg",
+        "LAC": "https://upload.wikimedia.org/wikipedia/commons/9/95/RNZAF_OR-2.svg",
+        "CPL": "https://upload.wikimedia.org/wikipedia/commons/9/94/RNZAF_OR-4.svg",
+        "SGT": "https://upload.wikimedia.org/wikipedia/commons/6/6c/RNZAF_OR-6.svg",
+        "F/S": "https://upload.wikimedia.org/wikipedia/commons/6/65/RNZAF_OR-7.svg",
+        "W/O": "https://upload.wikimedia.org/wikipedia/commons/9/97/RNZAF_OR-9.svg",
+        "WO1": "https://upload.wikimedia.org/wikipedia/commons/9/97/RNZAF_OR-9.svg",
+        "PLTOFF": "https://upload.wikimedia.org/wikipedia/commons/c/c0/United_Kingdom-AirForce-OF-1a_Sleeve.svg",
+        "FLGOFF": "https://upload.wikimedia.org/wikipedia/commons/d/d3/United_Kingdom-AirForce-OF-1b_Sleeve.svg",
+        "FGOFF": "https://upload.wikimedia.org/wikipedia/commons/d/d3/United_Kingdom-AirForce-OF-1b_Sleeve.svg",
+        "FLTLT": "https://upload.wikimedia.org/wikipedia/commons/5/58/United_Kingdom-AirForce-OF-2_Sleeve.svg",
+        "SQNLDR": "https://upload.wikimedia.org/wikipedia/commons/f/fd/United_Kingdom-AirForce-OF-3_Sleeve.svg",
+        "WGCDR": "https://upload.wikimedia.org/wikipedia/commons/7/75/United_Kingdom-AirForce-OF-4_Sleeve.svg",
+        "GPTCAPT": "https://upload.wikimedia.org/wikipedia/commons/2/24/United_Kingdom-AirForce-OF-5_Sleeve.svg",
+        "GPCAPT": "https://upload.wikimedia.org/wikipedia/commons/2/24/United_Kingdom-AirForce-OF-5_Sleeve.svg",
+        "AIRCDRE": "https://upload.wikimedia.org/wikipedia/commons/5/5c/United_Kingdom-AirForce-OF-6_Sleeve.svg",
+        "AVM": "https://upload.wikimedia.org/wikipedia/commons/c/cd/United_Kingdom-AirForce-OF-7_Sleeve.svg",
+        "AM": "https://upload.wikimedia.org/wikipedia/commons/6/6f/United_Kingdom-AirForce-OF-8_Sleeve.svg",
+        "CAF": "https://upload.wikimedia.org/wikipedia/commons/9/99/United_Kingdom-AirForce-OF-10_Sleeve.svg"
+      }
+    };
+    function tryParseJSON(text){
+      try{ return JSON.parse(text); }catch(e){ return null; }
+    }
+    const trainingMap = {
+      'advancement_1': 'Basic training',
+      'advancement_2': '1st year',
+      'advancement_3': '2nd year',
+      'advancement_4': '3rd year',
+      'advancement_5': '4th year'
+    };
+    const atpCourseMap = {
+      '1': 'JNCO',
+      '2': 'SNCO',
+      '16': 'Commissioning',
+      '17': 'ITTM',
+      '15': 'Shooting Coaches',
+      '20': 'Officer Fieldcraft',
+      '18': 'Command',
+      '21': 'CUCDR Conference'
+    };
+    function mapAtpCourse(val){
+      if(val == null) return '';
+      if(Array.isArray(val)) return val.map(mapAtpCourse).join(', ');
+      if(typeof val === 'object') return Object.values(val).map(mapAtpCourse).join(', ');
+      const key = String(val);
+      return atpCourseMap[key] || key;
+    }
+    function mapTrainingToken(t){
+      if(typeof t !== 'string') return t;
+      return trainingMap[t] || t;
+    }
+    const appliesToMap = {
+      '8': 'Navy',
+      '16': 'Army',
+      '32': 'Air Force',
+      '68': 'Sea Cadet Officer',
+      '65': 'Air Cadet Officer',
+      '66': 'Army Cadet Officer',
+      '196': 'Sea Cadet Area/National W/O',
+      '194': 'Army Cadet Area/National W/O',
+      '193': 'Air Cadet Area/National W/O',
+      '132': 'Sea Cadet',
+      '130': 'Army Cadet',
+      '129': 'Air Cadet'
+    };
+    function inferCorpsFromRank(rank){
+      if(rank.rank_applies_to && String(rank.rank_applies_to) in appliesToMap) return appliesToMap[String(rank.rank_applies_to)];
+      const name = (rank.rank_long||rank.label||'').toLowerCase();
+      if(/air|flight|squadron|marshal|wing/i.test(name)) return 'Air Force';
+      if(/admiral|captain|ensign|midshipman|petty|commander\b/i.test(name)) return 'Navy';
+      if(/general|brigadier|colonel|major|sergeant|private|trooper|lance|corporal|warrant/i.test(name)) return 'Army';
+      return null;
+    }
+    function normalizeCorpsLabel(lbl){
+      if(!lbl) return '';
+      const s = String(lbl).toLowerCase();
+      if(/sea cadet/i.test(lbl)) return s.includes('officer') ? 'Sea Cadet Officer' : 'Sea Cadet';
+      if(/army cadet/i.test(lbl)) return s.includes('officer') ? 'Army Cadet Officer' : 'Army Cadet';
+      if(/air cadet|air training/i.test(lbl)) return s.includes('officer') ? 'Air Cadet Officer' : 'Air Cadet';
+      return String(lbl);
+    }
+    function normalizeCorpsForImages(corps){
+      if (!corps) return corps;
+      if (/air cadet/i.test(corps)) return 'Air Cadet';
+      if (/army cadet/i.test(corps)) return 'Army Cadet';
+      if (/sea cadet/i.test(corps)) return 'Sea Cadet';
+      return corps;
+    }
+    const eqvMap = {};
+    function buildEqvMap(arr){
+      Object.keys(eqvMap).forEach(k=>delete eqvMap[k]);
+      if(!Array.isArray(arr)) return;
+      arr.forEach(r=>{
+        const key = String(r.rank_eqv == null ? '' : r.rank_eqv);
+        if(!key) return;
+        if(!eqvMap[key]) eqvMap[key] = [];
+        eqvMap[key].push(r);
+      });
+    }
+    function findRankForEqv(eqv, preferredAppliesTo){
+      if(eqv == null) return null;
+      const key = String(eqv);
+      const list = eqvMap[key] || [];
+      if(list.length === 0) return null;
+      if(preferredAppliesTo != null){
+        const pref = String(preferredAppliesTo);
+        const found = list.find(x=>String(x.rank_applies_to) === pref);
+        if(found) return (found.rank_long || found.rank_short || String(found.rank_eqv));
+      }
+      const first = list[0];
+      return (first.rank_long || first.rank_short || String(first.rank_eqv));
+    }
+    function findSubstantiveRankForEqv(eqv, preferredAppliesTo){
+      if(eqv == null) return null;
+      const key = String(eqv);
+      const list = eqvMap[key] || [];
+      if(list.length === 0) return null;
+      const isActing = r => isActingRank(r);
+      if(preferredAppliesTo != null){
+        const pref = String(preferredAppliesTo);
+        const candidates = list.filter(x=>String(x.rank_applies_to) === pref && !isActing(x));
+        if(candidates.length) return (candidates[0].rank_long || candidates[0].rank_short || String(candidates[0].rank_eqv));
+      }
+      const nonActing = list.find(x=>!isActing(x));
+      if(nonActing) return (nonActing.rank_long || nonActing.rank_short || String(nonActing.rank_eqv));
+      return findRankForEqv(eqv, preferredAppliesTo);
+    }
+    function isActingRank(r){
+      if(!r) return false;
+      const name = ((r.rank_long||'') + ' ' + (r.rank_short||'')).toLowerCase();
+      return /\bacting\b/.test(name) || /\bact\.?\b/.test(name);
+    }
+    function formatPrereqs(pr, currentRank){
+      if(pr == null) return '<em>None</em>';
+      if(typeof pr !== 'object') return '<pre class="prereq">'+escapeHtml(String(pr))+'</pre>';
+      const out = [];
+      function show(k,txt){ out.push('<div><strong>'+escapeHtml(k)+':</strong> '+txt+'</div>'); }
+      if(pr.must_be_older_than) show('Must be older than', formatDays(pr.must_be_older_than));
+      if(pr.must_be_younger_than) show('Must be younger than', formatDays(pr.must_be_younger_than));
+      if(pr.current_rank_eqv_must_be_min){
+        const v = Array.isArray(pr.current_rank_eqv_must_be_min)?pr.current_rank_eqv_must_be_min: [pr.current_rank_eqv_must_be_min];
+        const mapped = v.map(val=>{
+          const label = findSubstantiveRankForEqv(val, currentRank && currentRank.rank_applies_to);
+          return label ? escapeHtml(label) : escapeHtml(String(val));
+        });
+        show('Current rank must be equivalent to at least', mapped.join(', '));
+      }
+      if(pr.training_completed_must_include){
+        const t = Array.isArray(pr.training_completed_must_include)?pr.training_completed_must_include: [pr.training_completed_must_include];
+        const mapped = t.map(mapTrainingToken);
+        show('Training completed must include', escapeHtml(mapped.join(', ')));
+      }
+      if(pr.atp_courses_completed_must_include){
+        const t = Array.isArray(pr.atp_courses_completed_must_include)?pr.atp_courses_completed_must_include: [pr.atp_courses_completed_must_include];
+        const mapped = t.map(mapAtpCourse);
+        show('ATP courses completed must include', escapeHtml(mapped.join(', ')));
+      }
+      if(pr.atp_courses_staffed_must_include){
+        const arr = Array.isArray(pr.atp_courses_staffed_must_include)?pr.atp_courses_staffed_must_include:[pr.atp_courses_staffed_must_include];
+        const pieces = arr.map(item=>formatAtpStaffedRequirement(item));
+        show('ATP courses staffed must include', pieces.join('<br>'));
+      }
+      if(pr.min_time_in_other_ranks){
+        const rows = Array.isArray(pr.min_time_in_other_ranks)?pr.min_time_in_other_ranks: [pr.min_time_in_other_ranks];
+        rows.forEach(rr=>{
+          if(Array.isArray(rr) && rr.length>=2){
+            const label = findRankForEqv(rr[0], currentRank && currentRank.rank_applies_to);
+            const targetRaw = label ? String(label) : String(rr[0]);
+            show('Min time in rank equivalent to '+targetRaw, formatDays(rr[1]));
+            return;
+          }
+          if(typeof rr === 'object'){
+            out.push('<div>'+escapeHtml(JSON.stringify(rr))+'</div>');
+            return;
+          }
+          out.push('<div>'+escapeHtml(String(rr))+'</div>');
+        });
+      }
+      if(pr.max_days_in_rank) show('Max days in rank', formatDays(pr.max_days_in_rank));
+      Object.keys(pr).forEach(k=>{
+        if(['must_be_older_than','must_be_younger_than','current_rank_eqv_must_be_min','training_completed_must_include','atp_courses_completed_must_include','atp_courses_staffed_must_include','min_time_in_other_ranks','max_days_in_rank'].includes(k)) return;
+        const val = pr[k];
+        if(val == null) return;
+        if(Array.isArray(val)){
+          const mapped = val.map(mapTrainingToken);
+          show(k.replace(/_/g,' '), escapeHtml(mapped.join(', ')));
+        } else {
+          show(k.replace(/_/g,' '), escapeHtml(typeof val === 'object'?JSON.stringify(val):String(val)));
+        }
+      });
+      return out.join('');
+    }
+    function formatAtpStaffedRequirement(item){
+      if(item == null) return '<em>None</em>';
+      if(typeof item === 'number' || typeof item === 'string') return 'Course: '+escapeHtml(mapAtpCourse(item));
+      if(Array.isArray(item)) return 'Courses: '+escapeHtml(mapAtpCourse(item));
+      if(typeof item === 'object'){
+        const pieces = [];
+        if(item.course){
+          if(Array.isArray(item.course)) pieces.push('Courses: '+mapAtpCourse(item.course));
+          else if(typeof item.course === 'object') pieces.push('Courses: '+mapAtpCourse(Object.values(item.course)));
+          else pieces.push('Course: '+mapAtpCourse(item.course));
+        }
+        if(item.min_times) pieces.push('Min times: '+item.min_times);
+        return pieces.join('; ');
+      }
+      return escapeHtml(String(item));
+    }
+    function formatDays(n){
+      const num = Number(n);
+      if(Number.isFinite(num)){
+        const yrs = (num/365).toFixed(1);
+        return escapeHtml(num+' days (≈ '+yrs+' years)');
+      }
+      return escapeHtml(String(n));
+    }
+    function escapeHtml(s){
+      return (s+'').replace(/[&<>"']/g, c=>({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' })[c] || c);
+    }
+    function buildTable(arr){
+      if(!Array.isArray(arr)) return '<pre>Input is not an array of ranks.</pre>';
+      arr.sort((a,b)=>{
+        const na = Number(a.rank_sort||0), nb = Number(b.rank_sort||0);
+        if(!isNaN(na) && !isNaN(nb)) return na-nb;
+        return String(a.rank_sort||'').localeCompare(String(b.rank_sort||''));
+      });
+      let html = '<div class="table-wrap"><table><thead><tr><th style="width:120px">Rank Abbreviation</th><th>Full Rank</th><th style="width:160px">Corps</th><th>Prerequisites</th></tr></thead><tbody>';
+      arr.forEach(r=>{
+        const short = r.rank_short || r.value || '';
+        const long = r.rank_long || '';
+        const eqv = r.rank_eqv || '';
+        const eqvLabel = findRankForEqv(eqv, r.rank_applies_to) || eqv;
+        const prereqHtml = formatPrereqs(r.rank_prerequisites_for_promotion_to_rank, r);
+        const inferred = inferCorpsFromRank(r) || '';
+        let rawCorps = (r.rank_applies_to && appliesToMap[String(r.rank_applies_to)]) ? appliesToMap[String(r.rank_applies_to)] : inferred;
+        if(String(r.rank_id) === '56') rawCorps = 'Navy';
+        let canonicalCorps = normalizeCorpsLabel(rawCorps || '');
+        const shortUpper = (r.rank_short||'').toUpperCase();
+        const longLower = (r.rank_long||'').toLowerCase();
+        if(shortUpper === 'CDTUT' || longLower.includes('cadet under training')){
+          canonicalCorps = 'Air Cadet|Army Cadet|Sea Cadet';
+        }
+        const corpsSafe = escapeHtml(canonicalCorps || '');
+        const eqvSafe = escapeHtml(String(eqv || ''));
+        const appliesSafe = escapeHtml(String(r.rank_applies_to || ''));
+        html += '<tr data-corps="'+corpsSafe+'" data-eqv="'+eqvSafe+'" data-applies="'+appliesSafe+'">'
+          +'<td>'+escapeHtml(short)+'</td>'
+          +'<td>'+escapeHtml(long)+'</td>'
+          +'<td>'+(corpsSafe?'<span class="corps-badge">'+corpsSafe+'</span>':'')+'</td>'
+          +'<td class="prereq">'+prereqHtml+'</td>'
+        +'</tr>';
+      });
+      html += '</tbody></table></div>';
+      return html;
+    }
+    function applyFilters(){
+      const OTHER_EQV = '50';
+      const q = (document.getElementById('search').value||'').toLowerCase().trim();
+      const filter = (document.getElementById('corpsFilter').value||'').trim();
+      const table = output.querySelector('table');
+      if(!table) return;
+      const rows = table.tBodies[0].rows;
+      for(let r of rows){
+        const cells = r.cells;
+        const text = ((cells[0]?.textContent || '') + ' ' +(cells[1]?.textContent || '')).toLowerCase();
+        const rowCorps = (r.getAttribute('data-corps')||'').trim();
+        const rowCorpsLow = rowCorps.toLowerCase();
+        const rowEqv = (r.getAttribute('data-eqv')||'').trim();
+        const rowApplies = (r.getAttribute('data-applies')||'').trim();
+        const matchesText = !q || text.includes(q);
+        let matchesCorps = true;
+        const isOfficer = rowCorpsLow.includes('officer') || rowApplies !== '' && String(rowApplies).match(/6[5-8]|19[346]|68/);
+        const isCadet = rowCorpsLow.includes('cadet');
+        switch(filter){
+          case '': matchesCorps = true; break;
+          case 'air': matchesCorps = rowCorpsLow.includes('air'); break;
+          case 'army': matchesCorps = rowCorpsLow.includes('army'); break;
+          case 'navy': matchesCorps = rowCorpsLow.includes('navy')||rowCorpsLow.includes('sea'); break;
+          case 'air_training': matchesCorps = rowCorpsLow.includes('air cadet'); break;
+          case 'air_training_cadets': matchesCorps = rowCorpsLow.includes('air cadet') && !isOfficer; break;
+          case 'air_training_officers': matchesCorps = rowCorpsLow.includes('air cadet') && isOfficer; break;
+          case 'NZDF': matchesCorps = !rowCorpsLow.includes('cadet'); break;
+          case 'DF_air': matchesCorps = rowCorpsLow.includes('air') && !rowCorpsLow.includes('air cadet'); break;
+          case 'DF_army': matchesCorps = rowCorpsLow.includes('army') && !rowCorpsLow.includes('army cadet'); break;
+          case 'DF_navy': matchesCorps = rowCorpsLow.includes('navy') && !rowCorpsLow.includes('sea cadet'); break;
+          case 'nzcc': matchesCorps = rowCorpsLow.includes('army cadet'); break;
+          case 'nzcc_cadets': matchesCorps = rowCorpsLow.includes('army cadet') && !isOfficer; break;
+          case 'nzcc_officers': matchesCorps = rowCorpsLow.includes('army cadet') && isOfficer; break;
+          case 'sea_cadet': matchesCorps = rowCorpsLow.includes('sea cadet'); break;
+          case 'sea_cadet_cadets': matchesCorps = rowCorpsLow.includes('sea cadet') && !isOfficer; break;
+          case 'sea_cadet_officers': matchesCorps = rowCorpsLow.includes('sea cadet') && isOfficer; break;
+          case 'nzcf': matchesCorps = isCadet || isOfficer; break;
+          case 'nzcf_officers': matchesCorps = isOfficer && isCadet; break;
+          case 'cadets': matchesCorps = isCadet && !isOfficer; break;
+          case 'other': matchesCorps = String(rowEqv) === OTHER_EQV; break;
+          default: matchesCorps = true;
+        }
+        r.style.display = (matchesText && matchesCorps) ? '' : 'none';
+      }
+    }
+    document.getElementById('search').addEventListener('input', ()=>applyFilters());
+    document.getElementById('corpsFilter').addEventListener('change', ()=>applyFilters());
+    function populateCorpsFilter(){
+      const sel = document.getElementById('corpsFilter');
+      const opts = [
+        {v:'', t:'All Corps'},
+        {v:'air', t:'Air'},
+        {v:'army', t:'Army'},
+        {v:'navy', t:'Navy'},
+        {v:'NZDF', t:'NZDF'},
+        {v:'DF_air', t:'NZDF - Air Force'},
+        {v:'DF_army', t:'NZDF - Army'},
+        {v:'DF_navy', t:'NZDF - Navy'},
+        {v:'nzcf', t:'NZCF'},
+        {v:'nzcf_officers', t:'NZCF - officers'},
+        {v:'cadets', t:'NZCF - cadets'},
+        {v:'air_training', t:'ATC'},
+        {v:'air_training_cadets', t:'ATC - cadets'},
+        {v:'air_training_officers', t:'ATC - officers'},
+        {v:'nzcc', t:'NZCC'},
+        {v:'nzcc_cadets', t:'NZCC - cadets'},
+        {v:'nzcc_officers', t:'NZCC - officers'},
+        {v:'sea_cadet', t:'SCC'},
+        {v:'sea_cadet_cadets', t:'SCC - cadets'},
+        {v:'sea_cadet_officers', t:'SCC - officers'},
+        {v:'other', t:'Other'}
+      ];
+      sel.innerHTML = '';
+      opts.forEach(o=>{ const opt = document.createElement('option'); opt.value = o.v; opt.textContent = o.t; sel.appendChild(opt); });
+    }
+    let lastFetched = null;
+    const remoteUrl = 'https://www.cadetnet.org.nz/wp-admin/admin-ajax.php?action=rank';
+    async function fetchAndProcess(){
+      output.innerHTML = '<div class="small">Fetching remote rank JSON…</div>';
+      try{
+        const resp = await fetch(remoteUrl);
+        if(!resp.ok) throw new Error('Network response not OK: '+resp.status);
+        const data = await resp.json();
+        lastFetched = data;
+        const hideActing = document.getElementById('hideActing') && document.getElementById('hideActing').checked;
+        const visibleData = hideActing ? data.filter(r=>!isActingRank(r)) : data;
+        buildEqvMap(visibleData);
+        output.innerHTML = buildTable(visibleData);
+        populateCorpsFilter();
+        applyFilters();
+      }catch(err){
+        output.innerHTML = '<div style="color:#900"><strong>Fetch failed:</strong> '+escapeHtml(String(err.message||err))+'<br>Possible CORS or network restriction. If this is blocked, run the fetch from a server or enable CORS on the source.</div>';
+      }
+    }
+    document.getElementById('fetch').addEventListener('click', ()=>fetchAndProcess());
+    download.addEventListener('click', ()=>{
+      if(!lastFetched) return alert('No fetched data available — click Fetch Remote first');
+      const text = JSON.stringify(lastFetched, null, 2);
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(new Blob([text],{type:'application/json'}));
+      a.download = 'ranks.json';
+      a.click();
+      URL.revokeObjectURL(a.href);
+    });
+    window.addEventListener('load', ()=>fetchAndProcess());
+    document.getElementById('hideActing').addEventListener('change', ()=>{
+      if(!lastFetched) return;
+      const hideActing = document.getElementById('hideActing').checked;
+      const visibleData = hideActing ? lastFetched.filter(r=>!isActingRank(r)) : lastFetched;
+      buildEqvMap(visibleData);
+      output.innerHTML = buildTable(visibleData);
+      populateCorpsFilter();
+      applyFilters();
+    });
+    (function(){
+      const modal = document.getElementById('rowModal');
+      const modalTitle = modal.querySelector('.modal-title');
+      const modalCorps = modal.querySelector('.modal-corps');
+      const modalContent = modal.querySelector('.modal-content');
+      const closeBtn = modal.querySelector('.modal-close');
+      function hideModal(){ modal.classList.remove('open'); modal.setAttribute('aria-hidden','true'); document.body.style.overflow = ''; }
+      function showModal(){ modal.classList.add('open'); modal.setAttribute('aria-hidden','false'); document.body.style.overflow = 'hidden'; }
+      closeBtn.addEventListener('click', hideModal);
+      modal.addEventListener('click', (e)=>{ if(e.target === modal) hideModal(); });
+      document.addEventListener('keydown', (e)=>{ if(e.key === 'Escape') hideModal(); });
+      output.addEventListener('click', (e)=>{
+        const tr = e.target.closest('tr');
+        if(!tr || tr.closest('thead')) return;
+        const short = (tr.cells && tr.cells[0])? tr.cells[0].textContent.trim() : '';
+        const long = (tr.cells && tr.cells[1])? tr.cells[1].textContent.trim() : '';
+        const corps = tr.getAttribute('data-corps') || '';
+        const modalImageWrap = modal.querySelector('.modal-image');
+        const modalImage = modal.querySelector('#modalRankImage');
+        modalImageWrap.style.display = 'none';
+        modalImage.src = '';
+        modalImage.style.display = 'none';
+        const rawCorpsKey = corps.split('|')[0];
+        const corpsKey = normalizeCorpsForImages(rawCorpsKey);
+        const rankKey = short.toUpperCase();
+        const imgUrl = RANK_IMAGE_MAP[corpsKey]?.[rankKey];
+        if (imgUrl) {
+          modalImage.src = imgUrl;
+          modalImage.style.display = 'block';
+          modalImageWrap.style.display = 'block';
+        }
+        const eqv = tr.getAttribute('data-eqv') || '';
+        const applies = tr.getAttribute('data-applies') || '';
+        const prereqHtml = tr.querySelector('.prereq') ? tr.querySelector('.prereq').innerHTML : '<em>None</em>';
+        modalTitle.textContent = short + (long? ' — '+long : '');
+        modalCorps.innerHTML = corps ? '<span class="corps-badge">'+escapeHtml(corps)+'</span>' : '';
+        modalContent.innerHTML = '';
+        if(eqv){
+          const key = String(eqv);
+          const list = eqvMap[key] || [];
+          if(list.length){
+            const lines = list.map(r=>{
+              const label = r.rank_long || r.rank_short || String(r.rank_eqv || '');
+              const rawCorps = (r.rank_applies_to && appliesToMap[String(r.rank_applies_to)]) ? appliesToMap[String(r.rank_applies_to)] : (inferCorpsFromRank(r) || '');
+              const canon = normalizeCorpsLabel(rawCorps || '');
+              return '<div style="margin-bottom:6px"><strong>'+escapeHtml(label)+'</strong>' + (canon? ' <span class="corps-badge" style="margin-left:8px">'+escapeHtml(canon)+'</span>':'') + '</div>';
+            }).join('');
+            modalContent.innerHTML += '<div style="margin-bottom:8px"><strong>Equivalent (cross-corps):</strong><div style="margin-top:6px">'+lines+'</div></div>';
+          } else {
+            modalContent.innerHTML += '<div style="margin-bottom:8px"><strong>Equivalent:</strong> '+escapeHtml(String(eqv))+'</div>';
+          }
+        }
+        modalContent.innerHTML += '<div><strong>Prerequisites</strong><div style="margin-top:6px">'+prereqHtml+'</div></div>';
+        showModal();
+      });
+    })();
+    </script>
 </body>
 </html>
